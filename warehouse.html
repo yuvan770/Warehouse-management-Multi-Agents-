@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Warehouse Log Book - Multi Agent System</title>
+
+    <link
+        rel="stylesheet"
+        href="warehouse.css"
+    >
+
+</head>
+
+
+<body>
+
+    <header class="header">
+
+        <div class="header-content">
+
+            <div class="logo">
+                🏭
+            </div>
+
+            <div>
+
+                <h1>
+                    Warehouse Log Book
+                </h1>
+
+                <p>
+                    Multi-Agent Attendance & Wage Management System
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <main class="container">
+
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Warehouse Dashboard
+                    </h2>
+
+                    <p>
+                        Overview of today's workforce and wage status
+                    </p>
+
+                </div>
+
+                <div class="date-display">
+
+                    <span>
+                        📅
+                    </span>
+
+                    <span id="currentDate">
+                        Loading...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        👷
+                    </div>
+
+                    <div>
+
+                        <span class="stat-label">
+                            Total Workers
+                        </span>
+
+                        <strong id="totalWorkers">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        ☀️
+                    </div>
+
+                    <div>
+
+                        <span class="stat-label">
+                            Morning Present
+                        </span>
+
+                        <strong id="morningPresent">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card orange">
+
+                    <div class="stat-icon">
+                        🌤️
+                    </div>
+
+                    <div>
+
+                        <span class="stat-label">
+                            Afternoon Present
+                        </span>
+
+                        <strong id="afternoonPresent">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <span class="stat-label">
+                            Today's Earned Wages
+                        </span>
+
+                        <strong id="todayWages">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORKER MANAGEMENT
+        ================================================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        👷 Worker Management
+                    </h2>
+
+                    <p>
+                        Register workers and automatically assign worker IDs.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid worker-form">
+
+                <div class="form-group">
+
+                    <label for="workerName">
+                        Worker Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="workerName"
+                        placeholder="Enter worker name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="dailyWage">
+                        Daily Wage
+                    </label>
+
+                    <input
+                        type="number"
+                        id="dailyWage"
+                        value="600"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="form-group button-group">
+
+                    <button
+                        id="addWorkerButton"
+                        class="primary-button"
+                        type="button"
+                    >
+                        ➕ Add Worker
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="workerMessage"
+                class="success-message hidden"
+            ></div>
+
+
+            <div class="table-container">
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Worker ID
+                            </th>
+
+                            <th>
+                                Worker Name
+                            </th>
+
+                            <th>
+                                Daily Wage
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="workerTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ATTENDANCE AGENT
+        ================================================== -->
+
+        <section class="card attendance-card">
+
+            <div class="agent-header">
+
+                <div class="agent-icon attendance-icon">
+                    👷
+                </div>
+
+                <div>
+
+                    <h2>
+                        Attendance Agent
+                    </h2>
+
+                    <p>
+                        Records morning and afternoon attendance separately.
+                    </p>
+
+                </div>
+
+                <span class="agent-status">
+                    ● ACTIVE
+                </span>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="attendanceDate">
+                        Attendance Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="attendanceDate"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="attendance-table-container">
+
+                <table class="attendance-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Worker ID
+                            </th>
+
+                            <th>
+                                Worker
+                            </th>
+
+                            <th>
+                                Morning
+                            </th>
+
+                            <th>
+                                Afternoon
+                            </th>
+
+                            <th>
+                                Today's Wage
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="attendanceTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <button
+                id="saveAttendanceButton"
+                class="primary-button full-button"
+                type="button"
+            >
+                💾 Save Attendance
+            </button>
+
+
+            <div
+                id="attendanceMessage"
+                class="success-message hidden"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             WAGE AGENT
+        ================================================== -->
+
+        <section class="card wage-card">
+
+            <div class="agent-header">
+
+                <div class="agent-icon wage-icon">
+                    💰
+                </div>
+
+                <div>
+
+                    <h2>
+                        Wage Agent
+                    </h2>
+
+                    <p>
+                        Calculates wages according to attendance and tracks payments.
+                    </p>
+
+                </div>
+
+                <span class="agent-status">
+                    ● ACTIVE
+                </span>
+
+            </div>
+
+
+            <div class="rule-box">
+
+                <h3>
+                    Wage Calculation Rules
+                </h3>
+
+                <div class="rule-grid">
+
+                    <div>
+                        <span>
+                            Morning + Afternoon
+                        </span>
+
+                        <strong>
+                            Full Wage
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            One Session
+                        </span>
+
+                        <strong>
+                            Half Wage
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            No Attendance
+                        </span>
+
+                        <strong>
+                            ₹0
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="wageDate">
+                        Wage Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="wageDate"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Worker
+                            </th>
+
+                            <th>
+                                Morning
+                            </th>
+
+                            <th>
+                                Afternoon
+                            </th>
+
+                            <th>
+                                Earned
+                            </th>
+
+                            <th>
+                                Paid
+                            </th>
+
+                            <th>
+                                Pending
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="wageTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MONTHLY REPORT AGENT
+        ================================================== -->
+
+        <section class="card report-card">
+
+            <div class="agent-header">
+
+                <div class="agent-icon report-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h2>
+                        Monthly Report Agent
+                    </h2>
+
+                    <p>
+                        Combines attendance and wage records into a monthly report.
+                    </p>
+
+                </div>
+
+                <span class="agent-status">
+                    ● ACTIVE
+                </span>
+
+            </div>
+
+
+            <div class="report-controls">
+
+                <div class="form-group">
+
+                    <label for="reportMonth">
+                        Select Month
+                    </label>
+
+                    <input
+                        type="month"
+                        id="reportMonth"
+                    >
+
+                </div>
+
+
+                <button
+                    id="generateReportButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    📊 Generate Monthly Report
+                </button>
+
+            </div>
+
+
+            <div
+                id="monthlySummary"
+                class="monthly-summary"
+            ></div>
+
+
+            <div class="table-container">
+
+                <table class="report-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Worker ID
+                            </th>
+
+                            <th>
+                                Worker
+                            </th>
+
+                            <th>
+                                Morning Present
+                            </th>
+
+                            <th>
+                                Afternoon Present
+                            </th>
+
+                            <th>
+                                Full Days
+                            </th>
+
+                            <th>
+                                Half Days
+                            </th>
+
+                            <th>
+                                Absent
+                            </th>
+
+                            <th>
+                                Earned
+                            </th>
+
+                            <th>
+                                Paid
+                            </th>
+
+                            <th>
+                                Pending
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="reportTableBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             AGENT COMMUNICATION
+        ================================================== -->
+
+        <section class="card communication-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        🤖 Agent Communication
+                    </h2>
+
+                    <p>
+                        Live activity between the warehouse agents.
+                    </p>
+
+                </div>
+
+                <span class="live-indicator">
+                    ● LIVE
+                </span>
+
+            </div>
+
+
+            <div
+                id="agentActivity"
+                class="agent-activity"
+            ></div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <p>
+            Warehouse Log Book Multi-Agent System © 2026
+        </p>
+
+        <p>
+            Attendance • Wages • Monthly Reports
+        </p>
+
+    </footer>
+
+
+    <script src="warehouse.js"></script>
+
+</body>
+
+</html>
